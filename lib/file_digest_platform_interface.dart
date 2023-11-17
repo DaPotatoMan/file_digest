@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'file_digest_method_channel.dart';
@@ -23,7 +25,7 @@ abstract class FileDigestPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  Future<String?> getPlatformVersion() {
+  Future<String?> getDigest(Uint8List data) {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 }

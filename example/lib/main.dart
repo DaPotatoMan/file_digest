@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
+import 'dart:developer';
 
-import 'package:flutter/services.dart';
 import 'package:file_digest/file_digest.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,8 +32,12 @@ class _MyAppState extends State<MyApp> {
     // Platform messages may fail, so we use a try/catch PlatformException.
     // We also handle the message potentially returning null.
     try {
-      platformVersion =
-          await _fileDigestPlugin.getPlatformVersion() ?? 'Unknown platform version';
+      const content = 'my code';
+      final bytes = Uint8List.fromList(content.codeUnits);
+
+      platformVersion = await _fileDigestPlugin.getDigest(bytes) ?? 'Unknown platform version';
+
+      log(platformVersion);
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
     }

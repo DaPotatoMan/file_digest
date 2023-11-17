@@ -1,15 +1,12 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:file_digest/file_digest.dart';
-import 'package:file_digest/file_digest_platform_interface.dart';
 import 'package:file_digest/file_digest_method_channel.dart';
+import 'package:file_digest/file_digest_platform_interface.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
-class MockFileDigestPlatform
-    with MockPlatformInterfaceMixin
-    implements FileDigestPlatform {
-
+class MockFileDigestPlatform with MockPlatformInterfaceMixin implements FileDigestPlatform {
   @override
-  Future<String?> getPlatformVersion() => Future.value('42');
+  Future<String?> getDigest() => Future.value('42');
 }
 
 void main() {

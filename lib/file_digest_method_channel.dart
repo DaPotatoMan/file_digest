@@ -10,8 +10,7 @@ class MethodChannelFileDigest extends FileDigestPlatform {
   final methodChannel = const MethodChannel('file_digest');
 
   @override
-  Future<String?> getPlatformVersion() async {
-    final version = await methodChannel.invokeMethod<String>('getPlatformVersion');
-    return version;
+  Future<String?> getDigest(Uint8List data) async {
+    return await methodChannel.invokeMethod<String>('getDigest', [data]);
   }
 }
