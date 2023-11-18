@@ -15,7 +15,8 @@ class FileDigest extends FileDigestBase {
     }
 
     final digest = Completer<String>();
-    final worker = html.Worker('./assets/packages/file_digest/assets/worker.js');
+    final worker =
+        html.Worker('./assets/packages/file_digest/assets/worker.js');
 
     worker.addEventListener('message', (event) {
       event = event as html.MessageEvent;
