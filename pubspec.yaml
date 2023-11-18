@@ -29,11 +29,3 @@ dev_dependencies:
 flutter:
   assets:
     - assets/worker.js
-
-  platforms:
-    android:
-    ios:
-    linux:
-    macos:
-    web:
-    windows:
