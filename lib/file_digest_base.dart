@@ -1,11 +1,19 @@
-import 'dart:async';
 import 'dart:isolate';
-import 'dart:typed_data';
 
-import 'package:crypto/crypto.dart';
+import 'package:crypto/crypto.dart' as crypto;
+import 'package:file_digest/core.dart';
 
-class FileDigest {
-  static Future<String> getDigest(Uint8List data) async {
-    return Isolate.run(() => sha256.convert(data).toString());
+class FileDigest extends FileDigestBase {
+  const FileDigest(super.data);
+  FileDigest.fromString(String content) : super.fromString(content);
+
+  Future<String> _convert(crypto.Hash hash) {
+    return Isolate.run(() => hash.convert(data).toString());
   }
+
+  @override
+  sha256() => _convert(crypto.sha256);
+
+  @override
+  sha512() => _convert(crypto.sha512);
 }

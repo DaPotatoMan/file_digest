@@ -1,54 +1,23 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:file_digest/file_digest.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
-
-  @override
-  void initState() {
-    super.initState();
-    initPlatformState();
-  }
+  static const input = 'Test content';
 
   // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    // We also handle the message potentially returning null.
-    try {
-      const content = 'my code';
-      final bytes = Uint8List.fromList(content.codeUnits);
-
-      platformVersion = await FileDigest.getDigest(bytes) ?? 'Unknown platform version';
-
-      log(platformVersion);
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      _platformVersion = platformVersion;
-    });
+  Future<({String sha256, String sha512})> getDigests() async {
+    return (
+      sha256: await FileDigest.fromString(input).sha256(),
+      sha512: await FileDigest.fromString(input).sha512(),
+    );
   }
 
   @override
@@ -59,7 +28,36 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+          child: SizedBox(
+            width: 400,
+            child: FutureBuilder(
+              future: getDigests(),
+              builder: (context, snapshot) {
+                final data = snapshot.data;
+
+                if (data == null) {
+                  return const CircularProgressIndicator();
+                }
+
+                const textStyle = (
+                  label: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                  value: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
+                );
+
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('SHA-256', style: textStyle.label),
+                    Text(data.sha256, style: textStyle.value),
+                    const SizedBox(height: 20),
+                    Text('SHA-512', style: textStyle.label),
+                    Text(data.sha512, style: textStyle.value),
+                  ],
+                );
+              },
+            ),
+          ),
         ),
       ),
     );
