@@ -1,6 +1,6 @@
 name: file_digest
 description: Easily create digest hex for files
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/DaPotatoMan/file_digest
 
 topics:
