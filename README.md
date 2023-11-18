@@ -1,15 +1,25 @@
-# file_digest
+#### Features
+- Simple API
+- Uses Web Workers in `Web` platforms to speed up parsing.
+- Uses Isolate.run in other platforms
 
-A new Flutter plugin project.
+#### Why was this made?
+Originally, it developed to handle digest creating in a web worker in web platforms. As parsing a large file in the main thread would freeze the app.
 
-## Getting Started
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+#### Example
+From Uint8List file data
 
-For help getting started with Flutter development, view the
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```dart
+final Uint8List data = ...;
 
+final String sha256 = await FileDigest(data).sha256();
+final String sha512 = await FileDigest(data).sha512();
+```
+
+From String content
+```dart
+const input = 'Test content';
+final String sha256 = await FileDigest.fromString(input).sha256();
+final String sha512 = await FileDigest.fromString(input).sha512();
+```
