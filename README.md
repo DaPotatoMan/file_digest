@@ -4,8 +4,7 @@
 - Uses Isolate.run in other platforms
 
 #### Why was this made?
-Originally, it developed to handle digest creating in a web worker in web platforms. As parsing a large file in the main thread would freeze the app.
-
+Originally, it was created for the web platform to speed up digest creation through web workers. As parsing a large file in the main thread would freeze the app.
 
 #### Example
 From Uint8List file data
