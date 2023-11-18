@@ -3,6 +3,8 @@ import 'dart:typed_data';
 abstract class FileDigestBase {
   final Uint8List data;
   const FileDigestBase(this.data);
+
+  /// Parse digest of raw string
   FileDigestBase.fromString(String content)
       : data = Uint8List.fromList(content.codeUnits);
 
