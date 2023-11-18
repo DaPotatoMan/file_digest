@@ -3,9 +3,6 @@ description: Easily create digest hex for files
 version: 0.0.1
 homepage: https://github.com/DaPotatoMan/file_digest
 
-authors:
-  - "Fahadul Islam"
-
 topics:
   - file
   - digest
