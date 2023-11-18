@@ -1,26 +1,16 @@
-import 'package:file_digest/file_digest.dart';
-import 'package:file_digest/file_digest_method_channel.dart';
-import 'package:file_digest/file_digest_platform_interface.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:plugin_platform_interface/plugin_platform_interface.dart';
+import 'dart:typed_data';
 
-class MockFileDigestPlatform with MockPlatformInterfaceMixin implements FileDigestPlatform {
-  @override
-  Future<String?> getDigest() => Future.value('42');
-}
+import 'package:file_digest/file_digest.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  final FileDigestPlatform initialPlatform = FileDigestPlatform.instance;
+  test('getDigest', () async {
+    const input = 'MY TEST CONTENT';
+    const output = 'd62c1633ede5a54eb59627fdde2cb8d4caebc2234a4c09c3aa5cdbe6287c94da';
 
-  test('$MethodChannelFileDigest is the default instance', () {
-    expect(initialPlatform, isInstanceOf<MethodChannelFileDigest>());
-  });
+    final data = Uint8List.fromList(input.codeUnits);
+    final task = FileDigest.getDigest(data);
 
-  test('getPlatformVersion', () async {
-    FileDigest fileDigestPlugin = FileDigest();
-    MockFileDigestPlatform fakePlatform = MockFileDigestPlatform();
-    FileDigestPlatform.instance = fakePlatform;
-
-    expect(await fileDigestPlugin.getPlatformVersion(), '42');
+    expect(await task, output);
   });
 }

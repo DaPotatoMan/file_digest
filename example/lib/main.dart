@@ -18,7 +18,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
-  final _fileDigestPlugin = FileDigest();
 
   @override
   void initState() {
@@ -35,7 +34,7 @@ class _MyAppState extends State<MyApp> {
       const content = 'my code';
       final bytes = Uint8List.fromList(content.codeUnits);
 
-      platformVersion = await _fileDigestPlugin.getDigest(bytes) ?? 'Unknown platform version';
+      platformVersion = await FileDigest.getDigest(bytes) ?? 'Unknown platform version';
 
       log(platformVersion);
     } on PlatformException {

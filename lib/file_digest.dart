@@ -1,5 +1,1 @@
-import 'file_digest_platform_interface.dart';
-
-class FileDigest {
-  final getDigest = FileDigestPlatform.instance.getDigest;
-}
+export 'file_digest_base.dart' if (dart.library.html) 'file_digest_web.dart';
