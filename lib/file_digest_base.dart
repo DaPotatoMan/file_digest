@@ -5,7 +5,7 @@ import 'package:file_digest/core.dart';
 
 class FileDigest extends FileDigestBase {
   const FileDigest(super.data);
-  FileDigest.fromString(String content) : super.fromString(content);
+  FileDigest.fromString(super.content) : super.fromString();
 
   Future<String> _convert(crypto.Hash hash) {
     return Isolate.run(() => hash.convert(data).toString());

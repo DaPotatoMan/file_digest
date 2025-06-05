@@ -7,7 +7,7 @@ import 'package:file_digest/core.dart';
 
 class FileDigest extends FileDigestBase {
   FileDigest(super.data);
-  FileDigest.fromString(String content) : super.fromString(content);
+  FileDigest.fromString(super.content) : super.fromString();
 
   Future<String> getDigest(String type) {
     if (data.buffer.lengthInBytes == 0) {
@@ -15,8 +15,7 @@ class FileDigest extends FileDigestBase {
     }
 
     final digest = Completer<String>();
-    final worker =
-        html.Worker('./assets/packages/file_digest/assets/worker.js');
+    final worker = html.Worker('./assets/packages/file_digest/assets/worker.js');
 
     worker.addEventListener('message', (event) {
       event = event as html.MessageEvent;
