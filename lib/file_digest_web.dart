@@ -33,6 +33,9 @@ class FileDigest extends FileDigestBase {
   }
 
   @override
+  md5() => getDigest('MD5');
+
+  @override
   sha256() => getDigest('SHA-256');
 
   @override

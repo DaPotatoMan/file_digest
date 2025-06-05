@@ -12,6 +12,9 @@ class FileDigest extends FileDigestBase {
   }
 
   @override
+  md5() => _convert(crypto.md5);
+
+  @override
   sha256() => _convert(crypto.sha256);
 
   @override

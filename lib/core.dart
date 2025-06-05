@@ -8,6 +8,7 @@ abstract class FileDigestBase {
   FileDigestBase.fromString(String content)
       : data = Uint8List.fromList(content.codeUnits);
 
+  Future<String> md5() => throw UnimplementedError();
   Future<String> sha256() => throw UnimplementedError();
   Future<String> sha512() => throw UnimplementedError();
 }
