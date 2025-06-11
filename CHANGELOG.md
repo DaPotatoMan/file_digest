@@ -1,3 +1,7 @@
+## 0.0.5
+
+* Fix pub constraints
+
 ## 0.0.4
 
 * Redesigned API (see README)
@@ -5,7 +9,6 @@
 ## 0.0.3
 
 - Added md5 method
-
 - Added md5 method
 
 ## 0.0.2
