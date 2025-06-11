@@ -1,4 +1,10 @@
+## 0.0.4
+
+* Redesigned API (see README)
+
 ## 0.0.3
+
+- Added md5 method
 
 - Added md5 method
 
