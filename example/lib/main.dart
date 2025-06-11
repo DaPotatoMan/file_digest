@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:cross_file/cross_file.dart';
 import 'package:file_digest/file_digest.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,9 +16,12 @@ class MyApp extends StatelessWidget {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<({String sha256, String sha512})> getDigests() async {
+    final file = XFile.fromData(Uint8List.fromList(input.codeUnits));
+    final digest = FileDigest.xFile(file);
+
     return (
-      sha256: await FileDigest.fromString(input).sha256(),
-      sha512: await FileDigest.fromString(input).sha512(),
+      sha256: await digest.sha256(),
+      sha512: await digest.sha512(),
     );
   }
 

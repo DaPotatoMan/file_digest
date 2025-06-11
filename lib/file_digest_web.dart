@@ -2,14 +2,20 @@
 
 import 'dart:async';
 import 'dart:html' as html;
+import 'dart:io';
+import 'dart:typed_data';
 
+import 'package:cross_file/cross_file.dart';
 import 'package:file_digest/core.dart';
 
 class FileDigest extends FileDigestBase {
-  FileDigest(super.data);
-  FileDigest.fromString(super.content) : super.fromString();
+  final Future<Uint8List> Function() _getBytes;
+  FileDigest.file(File file) : _getBytes = (() => file.readAsBytes());
+  FileDigest.xFile(XFile file) : _getBytes = (() => file.readAsBytes());
 
-  Future<String> getDigest(String type) {
+  Future<String> getDigest(String type) async {
+    final data = await _getBytes();
+
     if (data.buffer.lengthInBytes == 0) {
       throw 'data buffer has not data. Do not re-use FileDigest in web platform';
     }

@@ -1,14 +1,17 @@
-import 'dart:isolate';
+import 'dart:io';
 
+import 'package:cross_file/cross_file.dart';
 import 'package:crypto/crypto.dart' as crypto;
 import 'package:file_digest/core.dart';
 
 class FileDigest extends FileDigestBase {
-  const FileDigest(super.data);
-  FileDigest.fromString(super.content) : super.fromString();
+  final Stream<List<int>> stream;
+  FileDigest(this.stream);
+  FileDigest.file(File file) : stream = file.openRead();
+  FileDigest.xFile(XFile file) : stream = file.openRead();
 
   Future<String> _convert(crypto.Hash hash) {
-    return Isolate.run(() => hash.convert(data).toString());
+    return hash.bind(stream).first.then((digest) => digest.toString());
   }
 
   @override

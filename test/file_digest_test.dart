@@ -1,9 +1,9 @@
-import 'dart:typed_data';
+import 'dart:io';
 
+import 'package:cross_file/cross_file.dart';
 import 'package:file_digest/file_digest.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-const input = 'MY TEST CONTENT';
 const outputs = (
   md5: '955d2d86ca13e6af91093a1f978ebd48',
   sha256: 'd62c1633ede5a54eb59627fdde2cb8d4caebc2234a4c09c3aa5cdbe6287c94da',
@@ -12,22 +12,22 @@ const outputs = (
 );
 
 void main() {
-  const input = 'MY TEST CONTENT';
+  Future<void> matchDigest(dynamic Function() getFile) async {
+    FileDigest getDigest() {
+      final file = getFile();
+      return file is XFile ? FileDigest.xFile(file) : FileDigest.file(file);
+    }
 
-  test('FileDigest', () async {
-    final data = Uint8List.fromList(input.codeUnits);
-    final digest = FileDigest(data);
+    expect(await getDigest().md5(), outputs.md5);
+    expect(await getDigest().sha256(), outputs.sha256);
+    expect(await getDigest().sha512(), outputs.sha512);
+  }
 
-    expect(await digest.md5(), outputs.md5);
-    expect(await digest.sha256(), outputs.sha256);
-    expect(await digest.sha512(), outputs.sha512);
+  test('FileDigest.file', () {
+    return matchDigest(() => File('test/assets/sample.txt'));
   });
 
-  test('FileDigest.fromString', () async {
-    final digest = FileDigest.fromString(input);
-
-    expect(await digest.md5(), outputs.md5);
-    expect(await digest.sha256(), outputs.sha256);
-    expect(await digest.sha512(), outputs.sha512);
+  test('FileDigest.xFile', () async {
+    return matchDigest(() => XFile('test/assets/sample.txt'));
   });
 }

@@ -2,7 +2,7 @@
 
 - Simple API
 - Uses Web Workers in `Web` platforms to speed up parsing.
-- Uses Isolate.run in other platforms
+- Supports XFile from `cross-file` package
 
 #### Why was this made?
 
@@ -10,21 +10,22 @@ Originally, it was created for the web platform to speed up digest creation thro
 
 #### Example
 
-From Uint8List file data
+From File
 
 ```dart
-final Uint8List data = ...;
+final file = File(...);
 
-final String md5 = await FileDigest(data).md5();
-final String sha256 = await FileDigest(data).sha256();
-final String sha512 = await FileDigest(data).sha512();
+final String md5 = await FileDigest.file(file).md5();
+final String sha256 = await FileDigest.file(file).sha256();
+final String sha512 = await FileDigest.file(file).sha512();
 ```
 
-From String content
+From XFile
 
 ```dart
-const input = 'Test content';
-final String md5 = await FileDigest.fromString(input).md5();
-final String sha256 = await FileDigest.fromString(input).sha256();
-final String sha512 = await FileDigest.fromString(input).sha512();
+final file = XFile(...);
+
+final String md5 = await FileDigest.xFile(file).md5();
+final String sha256 = await FileDigest.xFile(file).sha256();
+final String sha512 = await FileDigest.xFile(file).sha512();
 ```
