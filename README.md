@@ -14,10 +14,11 @@ Create MD5, SHA-256, and SHA-512 digests from files, `XFile`s, bytes, or streams
 
 ```dart
 import 'dart:typed_data';
-
 import 'package:file_digest/file_digest.dart';
 
-final digest = FileDigest.bytes(Uint8List.fromList('Hello'.codeUnits));
+final digest = FileDigest.bytes(
+  Uint8List.fromList('Hello'.codeUnits),
+);
 
 final md5 = await digest.md5();
 final sha256 = await digest.sha256();
@@ -37,11 +38,11 @@ final sha256 = await digest.sha256();
 
 | Input | Web | Android, iOS, Linux, macOS, Windows |
 | --- | --- | --- |
-| `FileDigest.bytes` | Yes | Yes |
-| `FileDigest.stream` | Yes | Yes |
-| `FileDigest.xFile` | Yes | Yes |
-| `FileDigest.file` | No | Yes |
+| `FileDigest.bytes` | ✅ | ✅ |
+| `FileDigest.stream` | ✅ | ✅ |
+| `FileDigest.xFile` | ✅ | ✅ |
+| `FileDigest.file` | ❌ | ✅ |
 
 ## License
 
-Licensed under the MIT License. See [LICENSE](LICENSE).
+Licensed under the MIT License. See [LICENSE](https://github.com/DaPotatoMan/file_digest/blob/main/LICENSE).
