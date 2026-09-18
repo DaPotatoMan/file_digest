@@ -6,6 +6,7 @@ import 'package:crypto/crypto.dart' deferred as crypto;
 import 'package:file_digest/src/types.dart';
 import 'package:web/web.dart' as web;
 
+/// Creates a digest from a byte stream in web browsers.
 Future<String> convert(DigestType type, FileStreamReader openRead) async {
   if (type == .md5) {
     await crypto.loadLibrary();

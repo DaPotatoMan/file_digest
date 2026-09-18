@@ -1,6 +1,7 @@
 import 'package:crypto/crypto.dart' as crypto;
 import 'package:file_digest/src/types.dart';
 
+/// Creates a digest from a byte stream on Dart VM platforms.
 Future<String> convert(DigestType type, FileStreamReader openRead) async {
   final hash = switch (type) {
     .md5 => crypto.md5,

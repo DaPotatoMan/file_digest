@@ -231,3 +231,4 @@ linter:
     - use_truncating_division
     - valid_regexps
     - void_checks
+    - public_member_api_docs
