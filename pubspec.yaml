@@ -22,4 +22,5 @@ dev_dependencies:
 
 flutter:
   assets:
-    - assets/worker.js
+    - path: assets/worker.js
+      platforms: [web]
