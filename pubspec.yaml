@@ -1,6 +1,6 @@
 name: file_digest
 description: Generate MD5, SHA-256, and SHA-512 digest hashes from files, byte data, or streams.
-version: 0.0.6
+version: 0.0.7
 homepage: https://github.com/DaPotatoMan/file_digest
 repository: https://github.com/DaPotatoMan/file_digest
 issue_tracker: https://github.com/DaPotatoMan/file_digest/issues
