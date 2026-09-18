@@ -1,31 +1,47 @@
-#### Features
+# file_digest
 
-- Simple API
-- Uses Web Workers in `Web` platforms to speed up parsing.
-- Supports XFile from `cross-file` package
+## About
 
-#### Why was this made?
+Create MD5, SHA-256, and SHA-512 digests from files, `XFile`s, bytes, or streams.
 
-Originally, it was created for the web platform to speed up digest creation through web workers. As parsing a large file in the main thread would freeze the app.
+## Features
 
-#### Example
+- Works with files, `XFile`, bytes, and streams
+- Supports MD5, SHA-256, and SHA-512
+- Uses a web worker for SHA digests in web apps
 
-From File
-
-```dart
-final file = File(...);
-
-final String md5 = await FileDigest.file(file).md5();
-final String sha256 = await FileDigest.file(file).sha256();
-final String sha512 = await FileDigest.file(file).sha512();
-```
-
-From XFile
+## How to use
 
 ```dart
-final file = XFile(...);
+import 'dart:typed_data';
 
-final String md5 = await FileDigest.xFile(file).md5();
-final String sha256 = await FileDigest.xFile(file).sha256();
-final String sha512 = await FileDigest.xFile(file).sha512();
+import 'package:file_digest/file_digest.dart';
+
+final digest = FileDigest.bytes(Uint8List.fromList('Hello'.codeUnits));
+
+final md5 = await digest.md5();
+final sha256 = await digest.sha256();
+final sha512 = await digest.sha512();
 ```
+
+You can also create a digest from a native file or an `XFile`:
+
+```dart
+final digest = FileDigest.xFile(file);
+final sha256 = await digest.sha256();
+```
+
+`FileDigest.stream` can be read once. Use `bytes`, `file`, or `xFile` when you need to calculate more than one digest.
+
+## Compatibility
+
+| Input | Web | Android, iOS, Linux, macOS, Windows |
+| --- | --- | --- |
+| `FileDigest.bytes` | Yes | Yes |
+| `FileDigest.stream` | Yes | Yes |
+| `FileDigest.xFile` | Yes | Yes |
+| `FileDigest.file` | No | Yes |
+
+## License
+
+Licensed under the MIT License. See [LICENSE](LICENSE).
