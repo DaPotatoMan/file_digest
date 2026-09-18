@@ -1,63 +1,76 @@
-import 'dart:async';
-
 import 'package:cross_file/cross_file.dart';
 import 'package:file_digest/file_digest.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const _App());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class _App extends StatelessWidget {
+  const _App();
 
   static const input = 'Test content';
 
   // Platform messages are asynchronous, so we initialize in an async method.
-  Future<({String sha256, String sha512})> getDigests() async {
-    final file = XFile.fromData(Uint8List.fromList(input.codeUnits));
+  Future<Map<String, String>> getDigests() async {
+    final file = XFile.fromData(.fromList(input.codeUnits));
     final digest = FileDigest.xFile(file);
 
-    return (
-      sha256: await digest.sha256(),
-      sha512: await digest.sha512(),
-    );
+    return {'MD5': await digest.md5(), 'SHA-256': await digest.sha256(), 'SHA-512': await digest.sha512()};
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
-        ),
+        appBar: AppBar(title: const Text('file_digest')),
         body: Center(
-          child: SizedBox(
-            width: 400,
+          child: Container(
+            width: 700,
+            alignment: .center,
             child: FutureBuilder(
               future: getDigests(),
               builder: (context, snapshot) {
                 final data = snapshot.data;
 
-                if (data == null) {
-                  return const CircularProgressIndicator();
+                if (snapshot.error case final error?) {
+                  return Text('Failed to create digests $error');
                 }
 
-                const textStyle = (
-                  label: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-                  value: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
-                );
+                if (data == null) {
+                  return const SizedBox.square(dimension: 20, child: CircularProgressIndicator());
+                }
 
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('SHA-256', style: textStyle.label),
-                    Text(data.sha256, style: textStyle.value),
-                    const SizedBox(height: 20),
-                    Text('SHA-512', style: textStyle.label),
-                    Text(data.sha512, style: textStyle.value),
+                return DataTable(
+                  dividerThickness: 0.4,
+                  horizontalMargin: 0,
+
+                  dataRowMaxHeight: 70.0,
+
+                  columns: const [
+                    .new(label: Text('Type')),
+                    .new(label: Text('Result')),
+                  ],
+
+                  rows: [
+                    for (final item in data.entries)
+                      .new(
+                        cells: [
+                          DataCell(Text(item.key, style: const .new(fontSize: 16, fontWeight: .w700))),
+                          DataCell(
+                            SizedBox(
+                              width: 400,
+                              child: Text(
+                                item.value,
+                                style: const .new(fontSize: 12.5, fontWeight: .normal),
+                                softWrap: true,
+                                overflow: .visible,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                   ],
                 );
               },

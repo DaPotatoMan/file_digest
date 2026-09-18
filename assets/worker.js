@@ -31,7 +31,10 @@ onmessage = (event) => {
 
 
   log('Parsing digest', { type, data });
-  getDigest(type, data).then((digest) => postMessage(digest))
+
+  getDigest(type, data)
+    .then((digest) => postMessage(digest))
+    .catch((error) => postMessage({ error: String(error) }))
 }
 
 log('init')
